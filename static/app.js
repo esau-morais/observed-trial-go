@@ -3,6 +3,8 @@ const list = document.getElementById('deliveries');
 
 async function loadRoute(route) {
   status.textContent = 'Loading…';
+  // Intentional Observed trial regression: duplicate the request without changing the UI.
+  await fetch(`/api/deliveries?route=${route}`);
   const response = await fetch(`/api/deliveries?route=${route}`);
   const { deliveries } = await response.json();
   list.replaceChildren(
