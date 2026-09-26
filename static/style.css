@@ -1,0 +1,5 @@
+body { font-family: system-ui, sans-serif; margin: 2rem; color: #1d2733; background: #f6f4ee; }
+main { max-width: 32rem; }
+.routes { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+button { font: inherit; padding: 0.4rem 0.8rem; border: 1px solid #1d2733; background: white; border-radius: 6px; }
+li { padding: 0.3rem 0; border-bottom: 1px solid #ddd; }
