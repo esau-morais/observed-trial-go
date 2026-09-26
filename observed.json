@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "name": "Delivery board",
+  "source": {
+    "entry": "main.go",
+    "paths": ["go.mod", "main.go", "static"]
+  },
+  "setup": [["go", "build", "-o", "delivery-board", "."]],
+  "start": ["./delivery-board"],
+  "ready": { "path": "/", "status": 200 },
+  "capture": {
+    "name": "Choose North route",
+    "path": "/",
+    "ready": [
+      { "kind": "wait-selector", "selector": "button[data-route='north']" },
+      { "kind": "network-idle" }
+    ],
+    "steps": [
+      { "kind": "click-role", "role": "button", "name": "North route" },
+      { "kind": "wait-selector", "selector": "#deliveries li" },
+      { "kind": "network-idle" }
+    ],
+    "check": {
+      "kind": "request-count",
+      "id": "one-deliveries-request",
+      "name": "Choosing a route requests deliveries exactly once",
+      "scope": "One North route click through displayed deliveries and network idle; successful GET requests to /api/deliveries.",
+      "method": "GET",
+      "path": "/api/deliveries",
+      "expectedCount": 1,
+      "status": 200
+    },
+    "browserArguments": ["--no-sandbox"],
+    "viewport": { "width": 1120, "height": 800, "scale": 1 }
+  }
+}

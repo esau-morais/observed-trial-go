@@ -1,0 +1,34 @@
+name: Observed
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: observed-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install Go
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y golang-1.24-go
+          echo "/usr/lib/go-1.24/bin" >> "$GITHUB_PATH"
+      - uses: esau-morais/observed@9b7b61ed5bd38aecbea189487db42dc73ffcc2ef
+        with:
+          project: .
+          base: ${{ github.event.pull_request.base.sha }}
+          github-app-client-id: ${{ vars.OBSERVED_APP_CLIENT_ID }}
+          github-app-private-key: ${{ secrets.OBSERVED_APP_PRIVATE_KEY }}
+          slack-bot-token: ${{ secrets.OBSERVED_SLACK_BOT_TOKEN }}
+          slack-channel: ${{ vars.OBSERVED_SLACK_CHANNEL }}
