@@ -24,7 +24,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y golang-1.24-go
           echo "/usr/lib/go-1.24/bin" >> "$GITHUB_PATH"
-      - uses: esau-morais/observed@9b7b61ed5bd38aecbea189487db42dc73ffcc2ef
+      - uses: esau-morais/observed@d706b53c67fa61a841c85e3c8fbc9dbe8a5a2ce3 # v0.1.0
         with:
           project: .
           base: ${{ github.event.pull_request.base.sha }}
